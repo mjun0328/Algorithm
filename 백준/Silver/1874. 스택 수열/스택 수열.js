@@ -12,12 +12,17 @@ let stack = [];
 
 let result = [];
 for (let i = 0; i < N; i++) {
-  while (array.includes(input[i])) {
-    result.push("+");
-    stack.push(array.shift());
-  }
   if (stack.length > 0 && stack[stack.length - 1] === input[i]) {
-    result.push("-");
+    result.push(false);
+    stack.pop();
+  } else if (array.includes(input[i])) {
+    while (array[0] !== input[i]) {
+      result.push(true);
+      stack.push(array.shift());
+    }
+    result.push(true);
+    stack.push(array.shift());
+    result.push(false);
     stack.pop();
   } else {
     result = [];
@@ -27,5 +32,5 @@ for (let i = 0; i < N; i++) {
 }
 
 if (result.length > 0) {
-  console.log(result.join("\n"));
+  console.log(result.map((x) => (x ? "+" : "-")).join("\n"));
 }
